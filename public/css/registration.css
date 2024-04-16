@@ -1,0 +1,28 @@
+
+.registration {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.registration>input, .registration>button {
+    margin-top: 20px;
+    height: 35px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid #44abff;
+    padding: 5px;
+    font-family: JosefinSans-Regular; 
+}
+
+.registration>button {
+    background-color: #44abff;
+    height: 45px;
+    color: white;
+}
+
+.registration>button:hover {
+    cursor: pointer;
+    background-color: #0e92ff;
+}

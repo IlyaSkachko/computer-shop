@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model computers {
+  ID    Int     @id @default(autoincrement())
+  Name  String  @db.VarChar(150)
+  CPU   String  @db.VarChar(50)
+  GPU   String  @db.VarChar(50)
+  RAM   String  @db.VarChar(50)
+  HDD   String? @db.VarChar(50)
+  SSD   String? @db.VarChar(50)
+  Image String  @db.VarChar(50)
+  Price Float   @db.Float
+}
+
+model cpus {
+  ID        Int    @id @default(autoincrement())
+  Name      String @db.VarChar(100)
+  Frequency Float  @db.Float
+  Cores     Int
+  Cache     Int
+  Image     String @db.VarChar(50)
+  Price     Float  @db.Float
+}
+
+model gpus {
+  ID        Int    @id @default(autoincrement())
+  Name      String @db.VarChar(100)
+  Frequency Float  @db.Float
+  Memory    Float  @db.Float
+  Image     String @db.VarChar(50)
+  Price     Float  @db.Float
+}
+
+model laptops {
+  ID    Int     @id @default(autoincrement())
+  Name  String  @db.VarChar(150)
+  Model String  @db.VarChar(150)
+  CPU   String  @db.VarChar(50)
+  GPU   String  @db.VarChar(50)
+  RAM   String  @db.VarChar(50)
+  HDD   String? @db.VarChar(50)
+  SSD   String? @db.VarChar(50)
+  Image String  @db.VarChar(50)
+  Price Float   @db.Float
+}
+
+model orders {
+  ID             Int    @id @default(autoincrement())
+  Address        String @db.VarChar(150)
+  Status         String @db.VarChar(50)
+  ShoppingCartId Int
+
+  @@index([ShoppingCartId], map: "ShoppingCartId")
+}
+
+model rams {
+  ID        Int    @id @default(autoincrement())
+  Name      String @db.VarChar(100)
+  Type      String @db.VarChar(100)
+  Frequency Float  @db.Float
+  Memory    Float  @db.Float
+  TypePort  String @db.VarChar(30)
+  Image     String @db.VarChar(50)
+  Price     Float  @db.Float
+}
+
+model shoppingcart {
+  ID              Int   @id @default(autoincrement())
+  UserId          Int
+  ComputerId      Int?
+  CPU_ID          Int?
+  LaptopId        Int?
+  GPU_ID          Int?
+  RAM_ID          Int?
+  StorageDeviceId Int?
+  Price           Float @db.Float
+
+  @@index([CPU_ID], map: "CPU_ID")
+  @@index([ComputerId], map: "ComputerId")
+  @@index([GPU_ID], map: "GPU_ID")
+  @@index([LaptopId], map: "LaptopId")
+  @@index([RAM_ID], map: "RAM_ID")
+  @@index([StorageDeviceId], map: "StorageDeviceId")
+  @@index([UserId], map: "UserId")
+}
+
+model storagedevices {
+  ID        Int    @id @default(autoincrement())
+  Name      String @db.VarChar(100)
+  Type      String @db.VarChar(100)
+  Frequency Float  @db.Float
+  Memory    Float  @db.Float
+  Image     String @db.VarChar(50)
+  Price     Float  @db.Float
+}
+
+model users {
+  ID       Int     @id @default(autoincrement())
+  Name     String  @db.VarChar(50)
+  Surname  String  @db.VarChar(50)
+  Login    String  @db.VarChar(150)
+  Password String  @db.VarChar(150)
+  Phone    String  @db.VarChar(13)
+  Email    String? @db.VarChar(100)
+}

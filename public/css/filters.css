@@ -1,0 +1,63 @@
+.filters {
+    border: 3px solid #44abff;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 20px;
+        align-items: center;
+
+}
+
+.filters>div {
+    font-family: 'JosefinSans-Medium', sans-serif;
+}
+
+.filter_item {
+    padding: 40px 20px;
+    font-family: 'JosefinSans-Medium', sans-serif;
+}
+
+.filter_item>div>input {
+    margin-top: 15px;
+    width: 200px;
+    font-family: 'JosefinSans-Medium', sans-serif;
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 5px;
+    border: 2px solid #44abff;
+}
+
+
+.filter_menu {
+    margin-top: 10px;
+    background-color: #44abff;
+    color: white;
+    padding: 10px;
+    border: 0;
+    font-family: 'JosefinSans-Medium', sans-serif;
+    border-radius: 5px;
+}
+
+#filter_menu:hover {
+    cursor: pointer;
+}
+
+.filter_title {
+    font-family: 'JosefinSans-Medium', sans-serif;
+    text-align: center;
+}
+
+#submitButton {
+    height: 35px;
+    width: 100px;
+    margin-top: 30px;
+    background-color: #44abff;
+    color: white;
+    border-radius: 5px;
+    border: 0;
+}
+
+#submitButton:hover {
+    cursor: pointer;
+    background-color: #098efc;
+}

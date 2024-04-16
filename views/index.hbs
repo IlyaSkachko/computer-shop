@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/content.css">
+    <link rel="stylesheet" href="/css/registration.css">
+    <link rel="stylesheet" href="/css/filters.css">
+    <title>Computer Shop</title>
+</head>
+
+<body>
+    {{#if header}}
+    {{>header}}
+    {{/if}}
+    <main>
+        {{#if main}}
+        <img id="img_content1" src="/site-images/1.webp" alt="">
+        <img id="img_content2" src="/site-images/2.webp" alt="">
+        <img id="img_content3" src="/site-images/3.webp" alt="">
+        {{else}}
+        {{>filters}}
+        {{#if computers}}
+            {{>computers}}
+        {{/if}}
+        {{#if laptops}}
+            {{>laptops}}
+        {{/if}}
+        {{#if gpus}}
+            {{>gpus}}
+        {{/if}}
+        {{#if cpus}}
+            {{>cpus}}
+        {{/if}}
+        {{#if rams}}
+            {{>rams}}
+        {{/if}}
+        {{#if storageDevices}}
+            {{>storageDevices}}
+        {{/if}}
+        {{/if}}
+        {{#if registration}}
+            {{>registration}}
+        {{/if}}
+    </main>
+    {{#if footer}}
+    {{>footer}}
+    {{/if}}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="/js/script.js"></script>
+    <script src="/js/filters.js"></script>
+</body>
+
+</html>

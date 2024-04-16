@@ -1,0 +1,17 @@
+{{#each storageDevices}}
+        <div class="product_block">
+            <div class="img_product"><img src="{{this.Image}}" alt=""></div>
+            <div class="info_product">
+                <div>
+                    <div class="name">{{this.Name}}</div>
+                    <div class="specifications">
+                        <div>Тип: {{this.Type}}</div>
+                        <div>Частота: {{this.Frequency}}</div>
+                        <div>Память: {{this.Memory}}</div>
+                    </div>
+                </div>
+                <div class="price">Цена: {{this.Price}}</div>
+                <button class="in_basket" type="button">В корзину</button>
+            </div>
+        </div>
+        {{/each}}

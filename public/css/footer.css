@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+    margin: 0;
+    background-color:#44abff;
+    height: 150px;
+    flex-shrink: 0;
+}
+
+.footer_content {
+    margin: 0 auto;
+    max-width: 1440px;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.phones {
+    padding: 0 150px;
+}
+
+.company_info {
+    max-width: 50%;
+    display: flex;
+    align-items: center;
+}

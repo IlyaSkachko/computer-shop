@@ -1,0 +1,56 @@
+{{#if computer_filter}}
+<form class="filters" action="/computers/filter" method="GET" id="filterForm">
+    <div class="filter_item">
+        <div class="filter_title">Стоимость</div>
+        <div><input type="text" name="price_from" id="price_from" placeholder="От" value="0"></div>
+        <div><input type="text" name="price_to" id="price_to" placeholder="До"></div>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Процессор</div>
+        <select class="filter_menu" name="filter_menu_cpu" id="filter_menu_cpu">
+            <option value="Выбрать">Выбрать</option>
+            {{#each computer_cpus}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Видеокарта</div>
+        <select class="filter_menu" name="filter_menu_gpu" id="filter_menu_gpu">
+            <option value="Выбрать">Выбрать</option>
+            {{#each computer_gpus}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Оперативная память</div>
+        <select class="filter_menu" name="filter_menu_ram" id="filter_menu_ram">
+            <option value="Выбрать">Выбрать</option>
+            {{#each computer_rams}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Жёсткий диск</div>
+        <select class="filter_menu" name="filter_menu_hdd" id="filter_menu_hdd">
+            <option value="Выбрать">Выбрать</option>
+            {{#each computer_hdds}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">SSD</div>
+        <select class="filter_menu" name="filter_menu_ssd" id="filter_menu_ssd">
+            <option value="Выбрать">Выбрать</option>
+            {{#each computer_ssds}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <button type="submit" id="submitButton">Поиск</button>
+</form>
+{{/if}}

@@ -1,0 +1,19 @@
+{{#each laptops}}
+        <div class="product_block">
+            <div class="img_product"><img src="{{this.Image}}" alt=""></div>
+            <div class="info_product">
+                <div>
+                    <div class="name">{{this.Name}} {{this.Model}}</div>
+                    <div class="specifications">
+                        <div>CPU: {{this.CPU}}</div>
+                        <div>ОЗУ: {{this.RAM}}</div>
+                        <div>Накопитель: {{#if this.SSD}} SSD {{this.SSD}} {{/if}}{{#if this.HDD}} HDD {{this.HDD}}
+                            {{/if}}</div>
+                        <div>Видеокарта: {{this.GPU}}</div>
+                    </div>
+                </div>
+                <div class="price">Цена: {{this.Price}}</div>
+                <button class="in_basket" type="button">В корзину</button>
+            </div>
+        </div>
+        {{/each}}

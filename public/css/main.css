@@ -1,0 +1,17 @@
+
+main {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 700px;
+    font-family: 'JosefinSans-Medium', sans-serif;
+}
+
+
+
+#img_content1, #img_content2, #img_content3 {
+    margin-top: 50px;
+    padding:  15px;
+    max-width: 1400px;
+}
