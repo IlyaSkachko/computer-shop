@@ -22,6 +22,7 @@ export class RegistrationController {
         }
     }
 
+
     @Post()
     async postReg(@Body() data: any, @Res() res: Response) {
         try {

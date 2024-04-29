@@ -8,7 +8,8 @@ import * as cookieParser from "cookie-parser";
 import * as jwt from "jsonwebtoken";
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import * as passport from "passport";
-import { UserMiddleware } from './user/user.middleware';
+// import { UserMiddleware } from './user/user.middleware';
+import { DBRegistration } from './database/Users/DBRegistration';
 
 
 async function bootstrap() {

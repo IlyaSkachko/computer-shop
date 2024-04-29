@@ -1,10 +1,10 @@
 import { Controller, Get, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
-import { UserMiddleware } from './user.middleware';
+import { JwtMiddleware } from 'src/authorization/auth.middleware';
+// import { UserMiddleware } from './user.middleware';
 
 @Controller()
 export class UserController {
-    @UseGuards(UserMiddleware)
     @Get("/user/profile")
     async getProfile(@Res() res: Response) {
         try {

@@ -5,7 +5,8 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 
 
 @Module({
-  providers: [TokenService, JwtService],
+  imports: [JwtModule],
+  providers: [TokenService],
   exports: [TokenService]
 })
 export class TokenModule {}

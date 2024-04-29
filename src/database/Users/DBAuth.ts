@@ -3,6 +3,11 @@ import { DBInit } from "../DBInit";
 
 export class DBAuth extends DBInit {
 
+    constructor() {
+        super();
+    }
+
+
     async getUser(login: string) {
         try {
             const user = await this.prisma.users.findFirst({

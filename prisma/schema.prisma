@@ -71,6 +71,14 @@ model rams {
   Price     Float  @db.Float
 }
 
+model refreshtokens {
+  id            Int    @id @default(autoincrement())
+  Refresh_Token String @db.VarChar(500)
+  UserId        Int
+
+  @@index([UserId], map: "UserId")
+}
+
 model shoppingcart {
   ID              Int   @id @default(autoincrement())
   UserId          Int

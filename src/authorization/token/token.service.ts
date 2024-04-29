@@ -15,15 +15,22 @@ export class TokenService {
     private readonly refreshTokenExpire = 86400;
 
     constructor(private readonly jwtService: JwtService) {
+    }
 
+    decodeJwtToken(token: string): any {
+        try {
+            const decodedToken = this.jwtService.decode(token);
+            return decodedToken;
+        } catch (error) {
+            throw new Error('Invalid token');
+        }
     }
 
     verifyJwtToken(token: string): any {
         try {
-            console.log(token);
             return verify(token, this.jwtSecret);
         } catch (error) {
-            throw new Error('Invalid token');
+            return null;
         }
     }
 
@@ -36,6 +43,7 @@ export class TokenService {
         })
     }
 
+
     async generateRefreshJwtToken(user) {
         const payload = { user };
 
@@ -44,4 +52,5 @@ export class TokenService {
             expiresIn: this.refreshTokenExpire
         })
     }
+
 }

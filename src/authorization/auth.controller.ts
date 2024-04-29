@@ -1,44 +1,65 @@
-import { Controller, Get, Post, Res, Req } from "@nestjs/common";
+import { Controller, Get, Post, Res, Req, UnauthorizedException } from "@nestjs/common";
 import { Response, Request } from 'express';
 import { DBRegistration } from '../database/Users/DBRegistration'
 import * as bcrypt from 'bcrypt';
 import { DBAuth } from "src/database/Users/DBAuth";
 import { TokenService } from "./token/token.service";
+import { DBInit } from "src/database/DBInit";
+import { DBToken } from "src/database/Users/DBToken";
+import { TokenExpiredError } from "@nestjs/jwt";
 
 
 
 @Controller()
 export class AuthController {
-    private db: DBAuth;
+    private db: DBInit;
 
     constructor(private readonly tokenService: TokenService) {
-        this.db = new DBAuth(); 
     }
 
     @Get("/auth")
-    async getPage(@Res() res: Response) {
+    async getPage(@Res() res: Response, @Req() req: Request) {
         try {
-            return res.render('index.hbs', { layout: false, main: false, auth: true });
+            const accessToken = req.cookies["accessToken"];
+            const refreshToken = req.cookies["refreshToken"];
+
+            if (!accessToken) {
+                return res.render('index.hbs', { layout: false, main: false, auth: true });
+            }
+
+            res.redirect("/user/profile");
         } catch (err) {
             res.sendStatus(500);
         }
     }
+
+
 
     @Post("/auth")
     async postAuth(@Req() req: Request, @Res() res: Response) {
         try {
             const { login, password } = req.body;
 
-            const user = await this.db.getUser(login);
+            this.db = new DBAuth;
+
+            const user = await (this.db as DBAuth).getUser(login);
             if (user) {
+                const role = user.Role;
                 const passwordMatch = await bcrypt.compare(password, user.Password);
                 if (passwordMatch) {
-                    const accessToken = await this.tokenService.generateAccessJwtToken({login, password});
-                    const refreshToken = await this.tokenService.generateRefreshJwtToken({login, password});
-                    res.cookie("accessToken", accessToken, { httpOnly: true, sameSite: "strict", });
-                    res.cookie("refreshToken", refreshToken, { httpOnly: true, sameSite: "strict", });
-                    res.sendStatus(200);
-                    return;
+                    const accessToken = await this.tokenService.generateAccessJwtToken({login, password, role});
+                    const refreshToken = await this.tokenService.generateRefreshJwtToken({login, password, role});
+                    this.db = new DBToken;
+                    const refreshTokenDb = await (this.db as DBToken).getToken(refreshToken);
+                    if (!refreshTokenDb) {
+                        await (this.db as DBToken).postToken(refreshToken, user.ID);
+                        res.cookie("accessToken", accessToken, { httpOnly: true, sameSite: "strict", });
+                        res.cookie("refreshToken", refreshToken, { httpOnly: true, sameSite: "strict", });
+                        res.sendStatus(200);
+                        return;
+                    }   
+
+                    throw new Error();
                 }
             }
 
@@ -53,7 +74,6 @@ export class AuthController {
 
     @Get("/logout")
     async getLogout(@Req() req: Request, @Res() res: Response) {
-        const refreshToken = req.cookies.refreshToken;
         res.clearCookie("accessToken");
         res.clearCookie("refreshToken");
         res.redirect("/");

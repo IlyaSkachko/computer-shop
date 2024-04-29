@@ -1,4 +1,4 @@
-import { Controller, Get ,Post, Res, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get ,Post, Res, Req, UseInterceptors, UploadedFile, UseGuards, SetMetadata } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
 import { Multer } from 'multer';
@@ -10,11 +10,14 @@ import { DBLaptop } from 'src/database/Products/DBLaptop';
 import { DBRam } from 'src/database/Products/DBRam';
 import { DBStorageDevice } from 'src/database/Products/DBStorageDevice';
 import { DBOrder } from 'src/database/Orders/DBOrders';
+import { JwtMiddleware } from 'src/authorization/auth.middleware';
+
 
 @Controller()
 export class AdminPanelController {
 
     private db: DBInit;
+
 
 
     @Get("/adminPanel/orders") 

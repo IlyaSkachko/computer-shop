@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { MulterOptionsFactory, MulterModuleOptions } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { TokenService } from 'src/authorization/token/token.service';
 
 @Injectable()
 export class MulterMiddleware implements MulterOptionsFactory {
+
     createMulterOptions(): MulterModuleOptions {
         return {
             storage: diskStorage({
