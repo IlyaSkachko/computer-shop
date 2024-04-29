@@ -53,4 +53,232 @@
 
     <button type="submit" id="submitButton">Поиск</button>
 </form>
+<a class="reset_filter_link" href="/computers">Сбросить</a>
+{{/if}}
+
+
+{{#if laptop_filter}}
+<form class="filters" action="/cpus/filter" method="GET" id="filterForm">
+    <div class="filter_item">
+        <div class="filter_title">Стоимость</div>
+        <div><input type="text" name="price_from" id="price_from" placeholder="От" value="0"></div>
+        <div><input type="text" name="price_to" id="price_to" placeholder="До"></div>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Процессор</div>
+        <select class="filter_menu" name="filter_menu_cpu" id="filter_menu_cpu">
+            <option value="Выбрать">Выбрать</option>
+            {{#each laptop_cpus}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Видеокарта</div>
+        <select class="filter_menu" name="filter_menu_gpu" id="filter_menu_gpu">
+            <option value="Выбрать">Выбрать</option>
+            {{#each laptop_gpus}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Оперативная память</div>
+        <select class="filter_menu" name="filter_menu_ram" id="filter_menu_ram">
+            <option value="Выбрать">Выбрать</option>
+            {{#each laptop_rams}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Жёсткий диск</div>
+        <select class="filter_menu" name="filter_menu_hdd" id="filter_menu_hdd">
+            <option value="Выбрать">Выбрать</option>
+            {{#each laptop_hdds}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">SSD</div>
+        <select class="filter_menu" name="filter_menu_ssd" id="filter_menu_ssd">
+            <option value="Выбрать">Выбрать</option>
+            {{#each laptop_ssds}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <button type="submit" id="submitButton">Поиск</button>
+</form>
+<a class="reset_filter_link" href="/laptops">Сбросить</a>
+{{/if}}
+
+
+
+
+{{#if cpu_filter}}
+<form class="filters" action="/cpus/filter" method="GET" id="filterForm">
+    <div class="filter_item">
+        <div class="filter_title">Стоимость</div>
+        <div><input type="text" name="price_from" id="price_from" placeholder="От" value="0"></div>
+        <div><input type="text" name="price_to" id="price_to" placeholder="До"></div>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Частота</div>
+        <select class="filter_menu" name="filter_menu_frequency" id="filter_menu_frequency">
+            <option value="Выбрать">Выбрать</option>
+            {{#each cpu_frequency}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Количество ядер</div>
+        <select class="filter_menu" name="filter_menu_cores" id="filter_menu_cores">
+            <option value="Выбрать">Выбрать</option>
+            {{#each cpu_cores}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">КЭШ</div>
+        <select class="filter_menu" name="filter_menu_cache" id="filter_menu_cache">
+            <option value="Выбрать">Выбрать</option>
+            {{#each cpu_cache}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <button type="submit" id="submitButton">Поиск</button>
+</form>
+<a class="reset_filter_link" href="/cpus">Сбросить</a>
+{{/if}}
+
+
+
+{{#if gpu_filter}}
+<form class="filters" action="/gpus/filter" method="GET" id="filterForm">
+    <div class="filter_item">
+        <div class="filter_title">Стоимость</div>
+        <div><input type="text" name="price_from" id="price_from" placeholder="От" value="0"></div>
+        <div><input type="text" name="price_to" id="price_to" placeholder="До"></div>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Частота</div>
+        <select class="filter_menu" name="filter_menu_frequency" id="filter_menu_frequency">
+            <option value="Выбрать">Выбрать</option>
+            {{#each gpu_frequency}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Память</div>
+        <select class="filter_menu" name="filter_menu_memory" id="filter_menu_memory">
+            <option value="Выбрать">Выбрать</option>
+            {{#each gpu_memory}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <button type="submit" id="submitButton">Поиск</button>
+</form>
+<a class="reset_filter_link" href="/gpus">Сбросить</a>
+{{/if}}
+
+
+
+{{#if ram_filter}}
+<form class="filters" action="/rams/filter" method="GET" id="filterForm">
+    <div class="filter_item">
+        <div class="filter_title">Стоимость</div>
+        <div><input type="text" name="price_from" id="price_from" placeholder="От" value="0"></div>
+        <div><input type="text" name="price_to" id="price_to" placeholder="До"></div>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Частота</div>
+        <select class="filter_menu" name="filter_menu_frequency" id="filter_menu_frequency">
+            <option value="Выбрать">Выбрать</option>
+            {{#each ram_frequency}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Тип</div>
+        <select class="filter_menu" name="filter_menu_type" id="filter_menu_type">
+            <option value="Выбрать">Выбрать</option>
+            {{#each ram_type}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Тип порта</div>
+        <select class="filter_menu" name="filter_menu_port" id="filter_menu_port">
+            <option value="Выбрать">Выбрать</option>
+            {{#each ram_port}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Память</div>
+        <select class="filter_menu" name="filter_menu_memory" id="filter_menu_memory">
+            <option value="Выбрать">Выбрать</option>
+            {{#each ram_memory}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <button type="submit" id="submitButton">Поиск</button>
+</form>
+<a class="reset_filter_link" href="/rams">Сбросить</a>
+{{/if}}
+
+
+{{#if storage_filter}}
+<form class="filters" action="/storageDevices/filter" method="GET" id="filterForm">
+    <div class="filter_item">
+        <div class="filter_title">Стоимость</div>
+        <div><input type="text" name="price_from" id="price_from" placeholder="От" value="0"></div>
+        <div><input type="text" name="price_to" id="price_to" placeholder="До"></div>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Частота</div>
+        <select class="filter_menu" name="filter_menu_frequency" id="filter_menu_frequency">
+            <option value="Выбрать">Выбрать</option>
+            {{#each storage_frequency}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Тип</div>
+        <select class="filter_menu" name="filter_menu_type" id="filter_menu_type">
+            <option value="Выбрать">Выбрать</option>
+            {{#each storage_type}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="filter_item">
+        <div class="filter_title">Память</div>
+        <select class="filter_menu" name="filter_menu_memory" id="filter_menu_memory">
+            <option value="Выбрать">Выбрать</option>
+            {{#each storage_memory}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <button type="submit" id="submitButton">Поиск</button>
+</form>
+<a class="reset_filter_link" href="/storageDevices">Сбросить</a>
 {{/if}}

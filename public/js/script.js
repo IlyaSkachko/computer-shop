@@ -1,3 +1,37 @@
+function auth() {
+    const login = document.querySelector('.auth_login').value;
+    const password = document.querySelector('.auth_pass').value;
+
+
+    const data = {
+        login, password
+    };
+    const jsonData = JSON.stringify(data);
+
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('POST', '/auth', true);
+
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            window.location.href = "/"
+        } else {
+            const response = JSON.parse(xhr.responseText);
+            alert(response.error);
+        }
+    };
+
+    xhr.onerror = function () {
+        alert('Error');
+    };
+
+    xhr.send(jsonData);
+
+}
+
 function registration() {
     const name = document.querySelector('.reg_name').value;
     const surname = document.querySelector('.reg_surname').value;
@@ -70,8 +104,8 @@ function validateFields(name, surname, email, phone, login, password, confirmPas
 
     if (!isValidName || !isValidSurname) {
         alert("Неверный формат имени или фамилии");
-    } else if (!isValidPhone) {
-        alert("Неверный формат номера телефона");
+    } else if (!isValidPhone || phone.length > 13) {
+        alert("Неверный формат номера телефона. Номер телефона без знака '+'");
     } else if (!isValidEmail) {
         alert("Неверный формат электронной почты");
     } else if (passwordValue.length < 8) {
@@ -84,6 +118,7 @@ function validateFields(name, surname, email, phone, login, password, confirmPas
     }
 
     // Возвращаем булевое значение в зависимости от результатов валидации всех полей
+
     return (
         isValidName &&
         isValidSurname &&

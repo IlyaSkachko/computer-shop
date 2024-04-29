@@ -16,9 +16,8 @@ export class DBRegistration extends DBInit {
         }
     }
 
-    async postUser(name: string, surname: string, login: string, password: string, email: string, phone: string) {
+    async postUser(name: string, surname: string, login: string, password: string, email: string, phone: string, role: string) {
         try {
-
             await this.prisma.users.create({
                 data: {
                     Name: name,
@@ -26,12 +25,13 @@ export class DBRegistration extends DBInit {
                     Login: login,
                     Password: password,
                     Phone: phone,
-                    Email: email
+                    Email: email,
+                    Role: role
                 }
             });
-
         } catch (err) {
-            throw new Error("[Error] Could't created user")
+            console.error(err);
+            throw new Error("[Error] Could't create user");
         }
     }
 }

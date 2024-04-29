@@ -3,6 +3,31 @@ import { DBInit } from "../DBInit";
 
 export class DBComputer extends DBInit {
 
+
+    async setComputer(name, cpu, gpu, ram, price, image, hdd?, ssd?) {
+        try {
+
+            if (name.length > 150 || cpu.length > 50 || gpu.length > 50 || ram.length > 50 || hdd.length > 50 || ssd.length > 50) {
+                throw new Error("Too Big Data");
+            }
+
+            await this.prisma.computers.create({
+                data: {
+                    Name: name,
+                    CPU: cpu,
+                    GPU: gpu,
+                    RAM: ram,
+                    Price: parseFloat(price), 
+                    Image: image,
+                    HDD: hdd,
+                    SSD: ssd
+                }
+            })
+        } catch (e) {
+            throw new Error(`[ERROR] Computer create: ${e}`);
+        }
+    }
+
     async getComputers() {
         const computers = await this.prisma.computers.findMany();
         return computers;

@@ -1,0 +1,46 @@
+<div class="nav_links"><a class="orders" href="/adminPanel/orders">Заказы</a></div>
+
+
+<div class="adminPanel">
+    <div name="adminPanel_list" class="adminPanel_list">
+        <div value="computers"><a href="/adminPanel/computers">Компьютеры</a></div>
+        <div value="laptops"><a href="/adminPanel/laptops">Ноутбуки</a></div>
+        <div value="gpus"><a href="/adminPanel/gpus">Видеокарты</a></div>
+        <div value="cpus"><a href="/adminPanel/cpus">Процессоры</a></div>
+        <div value="rams"><a href="/adminPanel/rams">Оперативная память</a></div>
+        <div value="storageDevices"><a href="/adminPanel/storageDevices">Накопители</a></div>
+    </div>
+    {{#if computerPanel}}
+    {{>computerPanel}}
+    {{/if}}
+    {{#if laptopPanel}}
+    {{>laptopPanel}}
+    {{/if}}
+    {{#if ramPanel}}
+    {{>ramPanel}}
+    {{/if}}
+    {{#if gpuPanel}}
+    {{>gpuPanel}}
+    {{/if}}
+    {{#if cpuPanel}}
+    {{>cpuPanel}}
+    {{/if}}
+    {{#if storageDevicesPanel}}
+    {{>storageDevicePanel}}
+    {{/if}}
+    {{#if order}}
+    <div class="order_list">
+        {{#each allOrders}}
+        <div class="order_block">
+            <div class="order_item">Адрес: {{this.Address}}</div>
+            <div class="order_item">{{this.ShoppingCartId}}</div>
+            <div class="order_item">Статус: {{this.Status}}</div>
+            <div class="order_btns">
+                <button class="productImageBtn">Принять</button>
+                <button class="productImageBtn">Отклонить</button>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+</div>

@@ -47,12 +47,13 @@ export class RegistrationController {
                 return;
             }
 
-            await this.db.postUser(name, surname, login, hashedPassword, email, phone);
+            await this.db.postUser(name, surname, login, hashedPassword, email, phone, "USER");
 
-            res.sendStatus(200);
+            res.redirect("/")
         } catch (err) {
-            console.error("Общая ошибка:", err);
-            res.sendStatus(500);
+            console.error("Ошибка регистрации:", err);
+            res.statusCode = 400;
+            res.json({ error: "Ошибка в данных" });
         }
     }
 }

@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/css/content.css">
     <link rel="stylesheet" href="/css/registration.css">
     <link rel="stylesheet" href="/css/filters.css">
+    <link rel="stylesheet" href="/css/adminPanel.css">
+    <link rel="stylesheet" href="/css/auth.css">
     <title>Computer Shop</title>
 </head>
 
@@ -26,32 +28,40 @@
         {{else}}
         {{>filters}}
         {{#if computers}}
-            {{>computers}}
+        {{>computers}}
         {{/if}}
         {{#if laptops}}
-            {{>laptops}}
+        {{>laptops}}
         {{/if}}
         {{#if gpus}}
-            {{>gpus}}
+        {{>gpus}}
         {{/if}}
         {{#if cpus}}
-            {{>cpus}}
+        {{>cpus}}
         {{/if}}
         {{#if rams}}
-            {{>rams}}
+        {{>rams}}
         {{/if}}
         {{#if storageDevices}}
-            {{>storageDevices}}
+        {{>storageDevices}}
         {{/if}}
         {{/if}}
         {{#if registration}}
-            {{>registration}}
+        {{>registration}}
+        {{/if}}
+        {{#if auth}}
+            {{>auth}}
+        {{/if}}
+        {{#if adminPanel}}
+        {{>adminPanel}}
+        {{/if}}
+        {{#if profile}}
+            {{>profile}}
         {{/if}}
     </main>
-    {{#if footer}}
-    {{>footer}}
-    {{/if}}
 
+
+    <script src="https://cdn.jsdelivr.net/npm/handlebars/dist/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />

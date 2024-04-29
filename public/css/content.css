@@ -28,6 +28,10 @@ main:nth-of-type(1){
     justify-content: space-between;
 }
 
+.img_product>img {
+    width: 250px;
+}
+
 .specifications {
     display: flex;
     flex-wrap: wrap;

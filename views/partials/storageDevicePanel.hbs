@@ -1,0 +1,34 @@
+<form action="/adminPanel/addStorageDevice" method="post" class="product_form" enctype="multipart/form-data">
+    <input type="text" name="Name" placeholder="Название">
+    <input type="text" name="Type" placeholder="Тип">
+    <input type="text" name="Frequency" placeholder="Частота">
+    <input type="text" name="Memory" placeholder="Объем памяти">
+    <input type="text" name="Price" placeholder="Стоимость">
+    <input type="file" id="imageInput" name="Image">
+    <button class="productImageBtn" type="submit">Добавить</button>
+</form>
+
+
+<script>
+    document.querySelector('.product_form').addEventListener('submit', function (event) {
+            let name = document.querySelector('input[name="Name"]').value;
+            let frequency = document.querySelector('input[name="Frequency"]').value;
+            let type = document.querySelector('input[name="Type"]').value;
+            let memory = parseFloat(document.querySelector('input[name="Memory"]').value);
+            let price = document.querySelector('input[name="Price"]').value;
+
+            if (!name || !frequency || !memory || !type || !price) {
+                alert('Все поля должны быть заполнены!');
+                event.preventDefault(); 
+            } else if (isNaN(frequency) || isNaN(memory) || isNaN(price)) {
+                alert('Некорректные значения! Поля "Частота", "Ядра", "Кэш" и "Стоимость" должны быть числовыми.');
+                event.preventDefault();
+            } else if (frequency <= 0 || memory <= 0 || Price <= 0) {
+                alert('Некорректные значения! Поля "Частота", "Ядра", "Кэш" и "Стоимость" должны быть больше 0.');
+                event.preventDefault();
+            } else if (name.length > 100 || type.length > 100) {
+                alert('Некорректные значения! Слишком длинные значения в полях');
+            }
+            
+    });
+</script>

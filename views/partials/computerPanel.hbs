@@ -1,0 +1,43 @@
+
+
+<form action="/adminPanel/addComputer" method="post" class="product_form" enctype="multipart/form-data">
+    <input type="text" name="Name" placeholder="Название">
+    <input type="text" name="CPU" placeholder="Процессор" >
+    <input type="text" name="GPU" placeholder="Видеокарта">
+    <input type="text" name="RAM" placeholder="Оперативная память">
+    <input type="text" name="HDD" placeholder="HDD">
+    <input type="text" name="SSD" placeholder="SSD">
+    <input type="text" name="Price" placeholder="Стоимость">
+    <input type="file" id="imageInput" name="Image">
+    <button class="productImageBtn" type="submit">Добавить</button>
+</form>
+
+
+<script>
+    document.querySelector('.product_form').addEventListener('submit', function (event) {
+        let name = document.querySelector('input[name="Name"]').value;
+        let cpu = document.querySelector('input[name="CPU"]').value;
+        let gpu = document.querySelector('input[name="GPU"]').value;
+        let ram = document.querySelector('input[name="RAM"]').value;
+        let hdd = document.querySelector('input[name="HDD"]').value;
+        let ssd = document.querySelector('input[name="SSD"]').value;
+        let price = parseFloat(document.querySelector('input[name="Price"]').value);
+        let image = document.querySelector('input[name="Image"]').value;
+
+
+        if (!name || !ram || !cpu || !gpu || !price) {
+            alert('Все поля должны быть заполнены!');
+            event.preventDefault();
+        } else if (isNaN(price)) {
+            alert('Некорректные значения! Поле "Стоимость" должно быть числовым.');
+            event.preventDefault();
+        } else if (price <= 0) {
+            alert('Некорректные значения! Поле "Стоимость" должно быть больше 0.');
+            event.preventDefault();
+        } else if (name.length > 150 || cpu.length > 50 || gpu.length > 50 || ram.length > 50 || hdd.length > 50 || ssd.length > 50) {
+            alert('Некорректные значения! Слишком длинные значения в полях');
+            event.preventDefault();
+        }
+    });
+
+</script>

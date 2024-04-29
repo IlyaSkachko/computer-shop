@@ -109,4 +109,5 @@ model users {
   Password String  @db.VarChar(150)
   Phone    String  @db.VarChar(13)
   Email    String? @db.VarChar(100)
+  Role     String  @db.VarChar(50)
 }

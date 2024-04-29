@@ -1,13 +1,13 @@
         {{#each cpus}}
         <div class="product_block">
-            <div class="img_product"><img src="{{this.Image}}" alt=""></div>
+            <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
             <div class="info_product">
                 <div>
                     <div class="name">{{this.Name}}</div>
                     <div class="specifications">
-                        <div>Частота: {{this.Frequency}}</div>
+                        <div>Частота: {{this.Frequency}} ГГц</div>
                         <div>Ядра: {{this.Cores}}</div>
-                        <div>КЭШ: {{this.Cache}}</div>
+                        <div>КЭШ: {{this.Cache}} МБ</div>
                     </div>
                 </div>
                 <div class="price">Цена: {{this.Price}}</div>

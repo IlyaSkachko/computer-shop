@@ -48,9 +48,9 @@ export class ComputerController {
         
 
         if (price_to !== "") {
-            filteredComputers = filteredComputers.filter((computer) => computer.Price >= parseInt(price_from) && computer.Price <= parseInt(price_to));
+            filteredComputers = filteredComputers.filter((computer) => computer.Price >= parseFloat(price_from) && computer.Price <= parseFloat(price_to));
         } else {
-            filteredComputers = filteredComputers.filter((computer) => computer.Price >= parseInt(price_from));
+            filteredComputers = filteredComputers.filter((computer) => computer.Price >= parseFloat(price_from));
         }
         
         if (filter_menu_cpu && filter_menu_cpu !== "Выбрать") {
