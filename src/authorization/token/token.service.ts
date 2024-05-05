@@ -17,16 +17,8 @@ export class TokenService {
     constructor(private readonly jwtService: JwtService) {
     }
 
-    decodeJwtToken(token: string): any {
-        try {
-            const decodedToken = this.jwtService.decode(token);
-            return decodedToken;
-        } catch (error) {
-            throw new Error('Invalid token');
-        }
-    }
 
-    verifyJwtToken(token: string): any {
+    async verifyJwtToken(token: string): Promise<any> {
         try {
             return verify(token, this.jwtSecret);
         } catch (error) {
@@ -53,4 +45,9 @@ export class TokenService {
         })
     }
 
+    async isAdmin(token): Promise<boolean> {
+        const verify = await this.verifyJwtToken(token);
+
+        return (verify.user.role === "ADMIN"); 
+    }
 }

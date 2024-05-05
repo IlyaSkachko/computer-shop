@@ -17,4 +17,4 @@ export class AdminModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(JwtMiddleware).forRoutes(AdminPanelController);
     }
- }
+}

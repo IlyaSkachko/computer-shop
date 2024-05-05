@@ -1,4 +1,5 @@
 
+import { BadRequestException } from "@nestjs/common";
 import { DBInit } from "../DBInit";
 
 export class DBCpu extends DBInit {
@@ -26,6 +27,37 @@ export class DBCpu extends DBInit {
         }
     }
 
+
+    async getCPU(id) {
+        const cpu = await this.prisma.cpus.findFirstOrThrow({
+            where: {
+                ID: id
+            }
+        });
+        return cpu;
+    }
+
+    async getPageCPUs(skip: number, take: number) {
+
+        try {
+            const cpus = await this.prisma.cpus.findMany({
+                skip,
+                take,
+            });
+            return cpus;
+        } catch (e) {
+            throw new BadRequestException();
+        }
+    }
+
+    async deleteCPU(id) {
+        const cpu = await this.prisma.cpus.delete({
+            where: {
+                ID: id
+            }
+        })
+        return cpu;
+    }
 
     async getCPUs() {
         const cpu = await this.prisma.cpus.findMany();

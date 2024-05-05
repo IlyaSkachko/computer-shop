@@ -1,0 +1,192 @@
+<h1 class="text_header">Корзина</h1>
+<div class="products">
+    {{#each computersCart}}
+    <div class="product_block">
+        <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+        <div class="info_product">
+            <div>
+                <div class="name">{{this.Name}}</div>
+                <div class="specifications">
+                    <div>CPU: {{this.CPU}}</div>
+                    <div>ОЗУ: {{this.RAM}}</div>
+                    <div>Накопитель: {{#if this.SSD}} SSD {{this.SSD}} {{/if}}{{#if this.HDD}} HDD {{this.HDD}}
+                        {{/if}}</div>
+                    <div>Видеокарта: {{this.GPU}}</div>
+                </div>
+            </div>
+            <div class="price">Цена: {{this.Price}}</div>
+            <button class="del_product" type="button" data-product="{{this.ID}}" data-type="computer">Удалить</button>
+        </div>
+    </div>
+    {{/each}}
+    {{#each ramsCart}}
+    <div class="product_block">
+        <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+        <div class="info_product">
+            <div>
+                <div class="name">{{this.Name}}</div>
+                <div class="specifications">
+                    <div>Тип: {{this.Type}}</div>
+                    <div>Частота: {{this.Frequency}} ГГц</div>
+                    <div>Память: {{this.Memory}} ГБ</div>
+                    <div>Тип порта: {{this.TypePort}}</div>
+                </div>
+            </div>
+            <div class="price">Цена: {{this.Price}}</div>
+            <button class="del_product" type="button" data-product="{{this.ID}}" data-type="ram">Удалить</button>
+        </div>
+    </div>
+    {{/each}}
+    {{#each laptopsCart}}
+    <div class="product_block">
+        <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+        <div class="info_product">
+            <div>
+                <div class="name">{{this.Name}} {{this.Model}}</div>
+                <div class="specifications">
+                    <div>CPU: {{this.CPU}}</div>
+                    <div>ОЗУ: {{this.RAM}}</div>
+                    <div>Накопитель: {{#if this.SSD}} SSD {{this.SSD}} {{/if}}{{#if this.HDD}} HDD {{this.HDD}}
+                        {{/if}}</div>
+                    <div>Видеокарта: {{this.GPU}}</div>
+                </div>
+            </div>
+            <div class="price">Цена: {{this.Price}}</div>
+            <button class="del_product" type="button" data-product="{{this.ID}}" data-type="laptop">Удалить</button>
+        </div>
+    </div>
+    {{/each}}
+    {{#each gpusCart}}
+    <div class="product_block">
+        <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+        <div class="info_product">
+            <div>
+                <div class="name">{{this.Name}}</div>
+                <div class="specifications">
+                    <div>Частота: {{this.Frequency}} ГГц</div>
+                    <div>Память: {{this.Memory}} ГБ</div>
+                </div>
+            </div>
+            <div class="price">Цена: {{this.Price}}</div>
+            <button class="del_product" type="button" data-product="{{this.ID}}" data-type="gpu">Удалить</button>
+        </div>
+    </div>
+    {{/each}}
+    {{#each cpusCart}}
+    <div class="product_block">
+        <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+        <div class="info_product">
+            <div>
+                <div class="name">{{this.Name}}</div>
+                <div class="specifications">
+                    <div>Частота: {{this.Frequency}} ГГц</div>
+                    <div>Ядра: {{this.Cores}}</div>
+                    <div>КЭШ: {{this.Cache}} МБ</div>
+                </div>
+            </div>
+            <div class="price">Цена: {{this.Price}}</div>
+            <button class="del_product" type="button" data-product="{{this.ID}}" data-type="cpu">Удалить</button>
+        </div>
+    </div>
+    {{/each}}
+    {{#each storageDevicesCart}}
+    <div class="product_block">
+        <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+        <div class="info_product">
+            <div>
+                <div class="name">{{this.Name}}</div>
+                <div class="specifications">
+                    <div>Тип: {{this.Type}}</div>
+                    <div>Частота: {{this.Frequency}}</div>
+                    <div>Память: {{this.Memory}} ГБ</div>
+                </div>
+            </div>
+            <div class="price">Цена: {{this.Price}}</div>
+            <button class="del_product" type="button" data-product="{{this.ID}}"
+                data-type="storageDevice">Удалить</button>
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+<h2 class="text_header">Цена корзины: {{price}}</h2>
+
+<button class="newOrders" style="margin: 30px auto" type="button">Оформить</button>
+
+
+<script>
+    const btns = document.querySelectorAll('.del_product');
+
+    const orderBtn = document.querySelector(".newOrders");
+
+
+    orderBtn.addEventListener("click", () => {
+        let products = []
+        const address = prompt("Введите адрес");
+
+        if (address) {
+
+            btns.forEach(button => {
+                const productId = button.getAttribute('data-product');
+                const productType = button.getAttribute("data-type");
+
+                products.push({ productId, productType })
+            });
+
+            const data = {
+                address,
+                products
+            }
+
+            const xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "/user/addOrder", false);
+
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        alert("Заказ оформлен");
+                        location.reload();
+                    } else {
+                        alert("Ошибка оформления заказа!")
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(data));
+
+        } else {
+            alert("Введите адрес!")
+        }
+    })
+        
+
+
+
+    btns.forEach(button => {
+        button.addEventListener('click', () => {
+            const productId = button.getAttribute('data-product');
+            const productType = button.getAttribute("data-type");
+
+            const data = {
+                productId,
+                productType
+            };
+            const xhr = new XMLHttpRequest();
+            xhr.open('DELETE', '/shoppingCart/delete');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        alert("Товар удален с корзины");
+                        location.reload();
+                    } else {
+                        alert("Ошибка удаления товара!")
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(data));
+        });
+    });
+</script>

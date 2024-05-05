@@ -51,15 +51,6 @@ model laptops {
   Price Float   @db.Float
 }
 
-model orders {
-  ID             Int    @id @default(autoincrement())
-  Address        String @db.VarChar(150)
-  Status         String @db.VarChar(50)
-  ShoppingCartId Int
-
-  @@index([ShoppingCartId], map: "ShoppingCartId")
-}
-
 model rams {
   ID        Int    @id @default(autoincrement())
   Name      String @db.VarChar(100)
@@ -118,4 +109,26 @@ model users {
   Phone    String  @db.VarChar(13)
   Email    String? @db.VarChar(100)
   Role     String  @db.VarChar(50)
+}
+
+model orders {
+  ID              Int    @id @default(autoincrement())
+  Address         String @db.VarChar(150)
+  Status          String @db.VarChar(50)
+  UserId          Int
+  ComputerId      Int?
+  CPU_ID          Int?
+  LaptopId        Int?
+  GPU_ID          Int?
+  RAM_ID          Int?
+  StorageDeviceId Int?
+  Price           Float  @db.Float
+
+  @@index([CPU_ID], map: "CPU_ID")
+  @@index([ComputerId], map: "ComputerId")
+  @@index([GPU_ID], map: "GPU_ID")
+  @@index([LaptopId], map: "LaptopId")
+  @@index([RAM_ID], map: "RAM_ID")
+  @@index([StorageDeviceId], map: "StorageDeviceId")
+  @@index([UserId], map: "UserId")
 }

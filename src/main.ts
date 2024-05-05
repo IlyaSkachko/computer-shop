@@ -10,14 +10,24 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import * as passport from "passport";
 // import { UserMiddleware } from './user/user.middleware';
 import { DBRegistration } from './database/Users/DBRegistration';
+import * as session from 'express-session';
 
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, new ExpressAdapter());
 
+  app.use(session({
+    secret: 'MyComputerShop',
+    resave: false,
+    saveUninitialized: false,
+  }));
+
+
   app.use(bodyParser.json());
   app.use(cookieParser());
-  //passport.use('jwt', jwtStrategy);
+
+  
+  
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.useStaticAssets(join(__dirname, '..', 'public', 'images'));
   app.useStaticAssets(join(__dirname, '..', 'public', 'css'));

@@ -1,19 +1,75 @@
+{{#if isAdmin}}
+<div class="product_list">
 {{#each laptops}}
-        <div class="product_block">
-            <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
-            <div class="info_product">
-                <div>
-                    <div class="name">{{this.Name}} {{this.Model}}</div>
-                    <div class="specifications">
-                        <div>CPU: {{this.CPU}}</div>
-                        <div>ОЗУ: {{this.RAM}}</div>
-                        <div>Накопитель: {{#if this.SSD}} SSD {{this.SSD}} {{/if}}{{#if this.HDD}} HDD {{this.HDD}}
-                            {{/if}}</div>
-                        <div>Видеокарта: {{this.GPU}}</div>
-                    </div>
-                </div>
-                <div class="price">Цена: {{this.Price}}</div>
-                <button class="in_basket" type="button">В корзину</button>
+<div class="product_block">
+    <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+    <div class="info_product">
+        <div>
+            <div class="name">{{this.Name}} {{this.Model}}</div>
+            <div class="specifications">
+                <div>CPU: {{this.CPU}}</div>
+                <div>ОЗУ: {{this.RAM}}</div>
+                <div>Накопитель: {{#if this.SSD}} SSD {{this.SSD}} {{/if}}{{#if this.HDD}} HDD {{this.HDD}}
+                    {{/if}}</div>
+                <div>Видеокарта: {{this.GPU}}</div>
             </div>
         </div>
-        {{/each}}
+        <div class="price">Цена: {{this.Price}}</div>
+
+        <button class="del_product" type="button" data-product="{{this.ID}}" data-type="laptop">Удалить</button>
+    </div>
+</div>
+{{/each}}
+</div>
+{{/if}}
+
+{{#if isUser}}
+<div class="product_list">
+    {{#each laptops}}
+    <div class="product_block">
+        <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+        <div class="info_product">
+            <div>
+                <div class="name">{{this.Name}} {{this.Model}}</div>
+                <div class="specifications">
+                    <div>CPU: {{this.CPU}}</div>
+                    <div>ОЗУ: {{this.RAM}}</div>
+                    <div>Накопитель: {{#if this.SSD}} SSD {{this.SSD}} {{/if}}{{#if this.HDD}} HDD {{this.HDD}}
+                        {{/if}}</div>
+                    <div>Видеокарта: {{this.GPU}}</div>
+                </div>
+            </div>
+            <div class="price">Цена: {{this.Price}}</div>
+
+            <button class="in_basket" type="button" data-product="{{this.ID}}" data-type="laptop">В корзину</button>
+        </div>
+    </div>
+    {{/each}}
+</div>
+{{/if}}
+
+<div class="pageBtns">
+    <a class="prev">Предыдущая страница</a>
+    <a class="next">Следующая страница</a>
+</div>
+
+<script>
+    const param = parseInt(new URLSearchParams(window.location.search).get('page'));
+
+    const next = document.querySelector(".next");
+    const prev = document.querySelector(".prev");
+
+    next.addEventListener("click", () => {
+        let xhr = new XMLHttpRequest();
+        const nextPage = param + 1;
+        window.location.href = `/laptops?page=${nextPage}`;
+    })
+
+    prev.addEventListener("click", () => {
+        let prevPage = param - 1;
+        if (prevPage < 1) {
+            prevPage = 1;
+        }
+        window.location.href = `/laptops?page=${prevPage}`;
+    })
+</script>

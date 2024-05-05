@@ -1,17 +1,72 @@
-        {{#each cpus}}
-        <div class="product_block">
-            <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
-            <div class="info_product">
-                <div>
-                    <div class="name">{{this.Name}}</div>
-                    <div class="specifications">
-                        <div>Частота: {{this.Frequency}} ГГц</div>
-                        <div>Ядра: {{this.Cores}}</div>
-                        <div>КЭШ: {{this.Cache}} МБ</div>
-                    </div>
+{{#if isAdmin}}
+<div class="product_list">
+    {{#each cpus}}
+    <div class="product_block">
+        <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+        <div class="info_product">
+            <div>
+                <div class="name">{{this.Name}}</div>
+                <div class="specifications">
+                    <div>Частота: {{this.Frequency}} ГГц</div>
+                    <div>Ядра: {{this.Cores}}</div>
+                    <div>КЭШ: {{this.Cache}} МБ</div>
                 </div>
-                <div class="price">Цена: {{this.Price}}</div>
-                <button class="in_basket" type="button">В корзину</button>
             </div>
+            <div class="price">Цена: {{this.Price}}</div>
+
+            <button class="del_product" type="button" data-product="{{this.ID}}"  data-type="cpu">Удалить</button>
         </div>
-        {{/each}}
+    </div>
+    {{/each}}
+</div>
+{{/if}}
+
+{{#if isUser}}
+<div class="product_list">
+    {{#each cpus}}
+    <div class="product_block">
+        <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+        <div class="info_product">
+            <div>
+                <div class="name">{{this.Name}}</div>
+                <div class="specifications">
+                    <div>Частота: {{this.Frequency}} ГГц</div>
+                    <div>Ядра: {{this.Cores}}</div>
+                    <div>КЭШ: {{this.Cache}} МБ</div>
+                </div>
+            </div>
+            <div class="price">Цена: {{this.Price}}</div>
+
+            <button class="in_basket" type="button" data-product="{{this.ID}}" data-type="cpu">В корзину</button>
+        </div>
+    </div>
+    {{/each}}
+</div>
+{{/if}}
+
+
+<div class="pageBtns">
+    <a class="prev">Предыдущая страница</a>
+    <a class="next">Следующая страница</a>
+</div>
+
+<script>
+    const param = parseInt(new URLSearchParams(window.location.search).get('page'));
+
+    const next = document.querySelector(".next");
+    const prev = document.querySelector(".prev");
+
+    next.addEventListener("click", () => {
+        let xhr = new XMLHttpRequest();
+        const nextPage = param + 1;
+        window.location.href = `/cpus?page=${nextPage}`;
+    })
+
+    prev.addEventListener("click", () => {
+        let prevPage = param - 1;
+        if (prevPage < 1) {
+            prevPage = 1;
+        }
+        window.location.href = `/cpus?page=${prevPage}`;
+    })
+</script>

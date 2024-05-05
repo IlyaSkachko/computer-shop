@@ -1,4 +1,5 @@
 
+import { BadRequestException } from "@nestjs/common";
 import { DBInit } from "../DBInit";
 
 export class DBRam extends DBInit {
@@ -28,9 +29,40 @@ export class DBRam extends DBInit {
         }
     }
 
+    async deleteRAM(id) {
+        const ram = await this.prisma.rams.delete({
+            where: {
+                ID: id
+            }
+        })
+        return ram;
+    }
+
+    async getRAM(id) {
+        const ram = await this.prisma.rams.findFirstOrThrow({
+            where: {
+                ID: id
+            }
+        });
+        return ram;
+    }
+
     async getRAMs() {
         const ram = await this.prisma.rams.findMany();
         return ram;
+    }
+
+    async getPageRAMs(skip: number, take: number) {
+
+        try {
+            const rams = await this.prisma.rams.findMany({
+                skip,
+                take,
+            });
+            return rams;
+        } catch (e) {
+            throw new BadRequestException();
+        }
     }
 
 

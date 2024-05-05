@@ -1,4 +1,4 @@
-
+{{#if isAdmin}}
 <div class="product_list">
     {{#each computers}}
     <div class="product_block">
@@ -15,8 +15,60 @@
                 </div>
             </div>
             <div class="price">Цена: {{this.Price}}</div>
-            <button class="in_basket" type="button">В корзину</button>
+            <button class="del_product" type="button" data-product="{{this.ID}}" data-type="computer">Удалить</button>
         </div>
     </div>
     {{/each}}
 </div>
+{{else}}
+<div class="product_list">
+    {{#each computers}}
+    <div class="product_block">
+        <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
+        <div class="info_product">
+            <div>
+                <div class="name">{{this.Name}}</div>
+                <div class="specifications">
+                    <div>CPU: {{this.CPU}}</div>
+                    <div>ОЗУ: {{this.RAM}}</div>
+                    <div>Накопитель: {{#if this.SSD}} SSD {{this.SSD}} {{/if}}{{#if this.HDD}} HDD {{this.HDD}}
+                        {{/if}}</div>
+                    <div>Видеокарта: {{this.GPU}}</div>
+                </div>
+            </div>
+            <div class="price">Цена: {{this.Price}}</div>
+
+
+            <button class="in_basket" type="button" data-product="{{this.ID}}" data-type="computer">В корзину</button>
+        </div>
+    </div>
+    {{/each}}
+</div>
+{{/if}}
+
+
+<div class="pageBtns">
+    <a class="prev">Предыдущая страница</a>
+    <a class="next">Следующая страница</a>
+</div>
+
+<script>
+    const param = parseInt(new URLSearchParams(window.location.search).get('page'));
+
+    const next = document.querySelector(".next");
+    const prev = document.querySelector(".prev");
+
+    next.addEventListener("click", () => {
+        let xhr = new XMLHttpRequest();
+        const nextPage = param + 1;
+        window.location.href = `/computers?page=${nextPage}`;
+    })
+
+    prev.addEventListener("click", () => {
+                let prevPage = param - 1;
+        if (prevPage < 1) {
+            prevPage = 1;
+        }
+        window.location.href=`/computers?page=${prevPage}`;
+    })
+</script>

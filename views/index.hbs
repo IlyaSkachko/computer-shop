@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="/css/filters.css">
     <link rel="stylesheet" href="/css/adminPanel.css">
     <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="icon" href="/site-images/logo.jpg" type="image/x-icon">
     <title>Computer Shop</title>
 </head>
 
@@ -50,15 +52,20 @@
         {{>registration}}
         {{/if}}
         {{#if auth}}
-            {{>auth}}
+        {{>auth}}
         {{/if}}
         {{#if adminPanel}}
         {{>adminPanel}}
         {{/if}}
         {{#if profile}}
-            {{>profile}}
+        {{>profile}}
         {{/if}}
+        {{#if shoppingCart}}
+        {{>shoppingCart}}
+        {{/if}}
+
     </main>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/handlebars/dist/handlebars.min.js"></script>
@@ -67,6 +74,67 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="/js/script.js"></script>
     <script src="/js/filters.js"></script>
+    <script>
+        const buttons = document.querySelectorAll('.in_basket');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.getAttribute('data-product');
+                const productType = button.getAttribute("data-type");
+
+                const data = {
+                    productId: productId
+                };
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', `/addToCart/${productType}`);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            alert("Товар добавлен в корзину");
+                        } else if (xhr.status === 401) {
+                            window.location.href = "/auth";
+                        } else {
+                            alert("Ошибка добавления товара!")
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify(data));
+            });
+        });
+
+
+        const del = document.querySelectorAll('.del_product');
+
+        del.forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.getAttribute('data-product');
+                const productType = button.getAttribute("data-type");
+
+                const data = {
+                    productId: productId
+                };
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('DELETE', `/deleteProduct/${productType}`);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            alert("Товар Удален");
+                            location.reload();
+                        } else if (xhr.status === 401) {
+                            window.location.href = "/auth";
+                        } else {
+                            alert("Ошибка удаления товара!")
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify(data));
+            });
+        });
+    </script>
 </body>
 
 </html>

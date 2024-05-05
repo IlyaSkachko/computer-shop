@@ -10,8 +10,8 @@ export class MulterMiddleware implements MulterOptionsFactory {
     createMulterOptions(): MulterModuleOptions {
         return {
             storage: diskStorage({
-                destination: "D:/UNIVER/CW/Project/computer-shop/public/images", // Путь для сохранения загруженных файлов
-                filename: (req, file, cb) => {
+                destination: "D:/UNIVER/CW/Project/computer-shop/public/images", 
+                    filename: (req, file, cb) => {
                     cb(null, file.originalname);
                 },
             }),

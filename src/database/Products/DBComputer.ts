@@ -1,4 +1,5 @@
 
+import { BadRequestException } from "@nestjs/common";
 import { DBInit } from "../DBInit";
 
 export class DBComputer extends DBInit {
@@ -28,10 +29,42 @@ export class DBComputer extends DBInit {
         }
     }
 
+    async getComputer(id) {
+        const computer = await this.prisma.computers.findFirst({
+            where: {
+                ID: id
+            }
+        })
+        return computer;
+    }
+
+    async deleteComputer(id) {
+        const computer = await this.prisma.computers.delete({
+            where: {
+                ID: id
+            }
+        })
+        return computer;
+    }
+
     async getComputers() {
         const computers = await this.prisma.computers.findMany();
         return computers;
     }
+
+    async getPageComputers(skip: number, take: number) {
+
+        try {
+        const computers = await this.prisma.computers.findMany({
+            skip,
+            take,
+        });
+        return computers;
+        } catch(e) {
+            throw new BadRequestException();
+        } 
+    }
+
 
     async getComputerCpus() {
         const uniqueCPUs = await this.prisma.computers.findMany({

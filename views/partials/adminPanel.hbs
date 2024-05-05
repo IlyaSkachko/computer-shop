@@ -1,5 +1,5 @@
-<div class="nav_links"><a class="orders" href="/adminPanel/orders">Заказы</a></div>
 
+<div class="nav_links"><a class="orders" href="/adminPanel/orders?page=1">Заказы</a><a class="orders" href="/logout">Выйти</a></div>
 
 <div class="adminPanel">
     <div name="adminPanel_list" class="adminPanel_list">
@@ -29,18 +29,7 @@
     {{>storageDevicePanel}}
     {{/if}}
     {{#if order}}
-    <div class="order_list">
-        {{#each allOrders}}
-        <div class="order_block">
-            <div class="order_item">Адрес: {{this.Address}}</div>
-            <div class="order_item">{{this.ShoppingCartId}}</div>
-            <div class="order_item">Статус: {{this.Status}}</div>
-            <div class="order_btns">
-                <button class="productImageBtn">Принять</button>
-                <button class="productImageBtn">Отклонить</button>
-            </div>
-        </div>
-        {{/each}}
-    </div>
+        {{>orders}}
     {{/if}}
 </div>
+

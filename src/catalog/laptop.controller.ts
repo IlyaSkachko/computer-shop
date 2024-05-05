@@ -1,36 +1,60 @@
-import { Controller, Get, Res, Query } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Res, Query, Req, ParseIntPipe } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { DBLaptop } from '../database/Products/DBLaptop'
+import { TokenService } from 'src/authorization/token/token.service';
+import { Page } from './page.enum';
+
 
 @Controller()
 export class LaptopController {
 
     private db: DBLaptop;
 
-    constructor() {
+    constructor(private readonly tokenService: TokenService) {
         this.db = new DBLaptop();
     }
 
     @Get('laptops')
-    async getPage(@Res() res: Response) {
+    async getPage(@Query('page', ParseIntPipe) page: number, @Res() res: Response, @Req() req: Request) {
         try {
-            const laptops = await this.db.getLaptops();
+
+            const pageSize = Page.SIZE;
+
+            if (isNaN(page) || page < 1) {
+                page = 1;
+            }
+
+            let skip = pageSize * (page - 1);
+
+            const laptops = await this.db.getPageLaptops(skip, pageSize);
             const laptop_cpus = await this.db.getLaptopCpus();
             const laptop_gpus = await this.db.getLaptopGpus();
             const laptop_rams = await this.db.getLaptopRams();
             const laptop_hdds = await this.db.getLaptopHDDs();
             const laptop_ssds = await this.db.getLaptopSSDs();
+
+            const refreshToken = req.cookies["refreshToken"];
+
+            if (refreshToken) {
+                if (await this.tokenService.isAdmin(refreshToken)) {
+                    return res.render('index.hbs', {
+                        layout: false, laptop_filter: true, main: false, isAdmin: true, footer: true, header: true, laptops, laptop_cpus, laptop_gpus, laptop_rams,
+                        laptop_hdds, laptop_ssds,
+                    });
+                }
+            }
+
             return res.render('index.hbs', {
-                layout: false, laptop_filter: true, main: false, footer: true, header: true, laptops, laptop_cpus, laptop_gpus, laptop_rams,
+                layout: false, laptop_filter: true, main: false, footer: true, isUser: true, header: true, laptops, laptop_cpus, laptop_gpus, laptop_rams,
                 laptop_hdds, laptop_ssds,
             });
-        } catch(err) {
+        } catch (err) {
             res.sendStatus(500);
         }
     }
 
     @Get("laptops/filter")
-    async getlaptopFilter(@Res() res: Response, @Query() query: any) {
+    async getlaptopFilter(@Res() res: Response, @Query() query: any, @Req() req: Request) {
         let laptops = await this.db.getLaptops();
         const laptop_cpus = await this.db.getLaptopCpus();
         const laptop_gpus = await this.db.getLaptopGpus();
@@ -84,8 +108,20 @@ export class LaptopController {
 
         laptops = filteredlaptops;
 
+
+        const refreshToken = req.cookies["refreshToken"];
+
+        if (refreshToken) {
+            if (await this.tokenService.isAdmin(refreshToken)) {
+                return res.render('index.hbs', {
+                    layout: false, laptop_filter: true, main: false, isAdmin: true, footer: true, header: true, laptops, laptop_cpus, laptop_gpus, laptop_rams,
+                    laptop_hdds, laptop_ssds,
+                });
+            }
+        }
+
         return res.render('index.hbs', {
-            layout: false, laptop_filter: true, main: false, footer: true, header: true, laptops, laptop_cpus, laptop_gpus, laptop_rams,
+            layout: false, laptop_filter: true, main: false, isUser: true, footer: true, header: true, laptops, laptop_cpus, laptop_gpus, laptop_rams,
             laptop_hdds, laptop_ssds,
         });
     }

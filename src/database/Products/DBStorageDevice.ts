@@ -1,4 +1,5 @@
 
+import { BadRequestException } from "@nestjs/common";
 import { DBInit } from "../DBInit";
 
 export class DBStorageDevice extends DBInit {
@@ -26,9 +27,40 @@ export class DBStorageDevice extends DBInit {
         }
     }
 
+    async deleteStorageDevice(id) {
+        const device = await this.prisma.storagedevices.delete({
+            where: {
+                ID: id
+            }
+        })
+        return device;
+    }
+
+    async getStorageDevice(id) {
+        const storDev = await this.prisma.storagedevices.findFirstOrThrow({
+            where: {
+                ID: id
+            }
+        });
+        return storDev;
+    }
+
     async getStorageDevices() {
         const storDev = await this.prisma.storagedevices.findMany();
         return storDev;
+    }
+
+    async getPageStorageDevices(skip: number, take: number) {
+
+        try {
+            const devices = await this.prisma.storagedevices.findMany({
+                skip,
+                take,
+            });
+            return devices;
+        } catch (e) {
+            throw new BadRequestException();
+        }
     }
 
     async getFrequency() {

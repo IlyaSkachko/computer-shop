@@ -1,37 +1,62 @@
-import { Controller, Get, Res, Query } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Res, Query, Req, ParseIntPipe } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { DBCpu } from '../database/Products/DBCpu'
+import { TokenService } from 'src/authorization/token/token.service';
+import { Page } from './page.enum';
 
 
 @Controller()
 export class CPUController {
     private db: DBCpu;
 
-    constructor() {
+    constructor(private readonly tokenService: TokenService) {
         this.db = new DBCpu();
     }
 
     @Get("/cpus")
-    async getPage(@Res() res: Response) {
+    async getPage(@Query('page', ParseIntPipe) page: number, @Res() res: Response, @Req() req: Request) {
         try {
-            const cpus = await this.db.getCPUs();
+            const refreshToken = req.cookies["refreshToken"];
+
+            const pageSize = Page.SIZE;
+
+            if (isNaN(page) || page < 1) {
+                page = 1;
+            }
+
+            let skip = pageSize * (page - 1);
+
+
+            const cpus = await this.db.getPageCPUs(skip, pageSize);
             const cpu_frequency = await this.db.getFrequency();
             const cpu_cores = await this.db.getCores();
             const cpu_cache = await this.db.getCache();
-            return res.render('index.hbs', { layout: false, cpu_filter: true, main: false, footer: true, header: true, cpus, cpu_frequency, cpu_cores, cpu_cache});
-        } catch(err) {
+
+
+            if (refreshToken) {
+                if (await this.tokenService.isAdmin(refreshToken)) {
+                    return res.render('index.hbs', { layout: false, cpu_filter: true, main: false, footer: true, isAdmin: true, header: true, cpus, cpu_frequency, cpu_cores, cpu_cache });
+                }
+            }
+
+            return res.render('index.hbs', { layout: false, cpu_filter: true, main: false, footer: true, header: true, isUser: true, cpus, cpu_frequency, cpu_cores, cpu_cache });
+
+        } catch (err) {
             res.sendStatus(500);
         }
     }
 
     @Get("/cpus/filter")
-    async getCpuFilter(@Res() res: Response, @Query() query: any) {
+    async getCpuFilter(@Res() res: Response, @Query() query: any, @Req() req: Request) {
+
+        const refreshToken = req.cookies["refreshToken"];
+
         let cpus = await this.db.getCPUs();
         const cpu_frequency = await this.db.getFrequency();
         const cpu_cores = await this.db.getCores();
         const cpu_cache = await this.db.getCache();
 
-        const { price_from, price_to, filter_menu_frequency, filter_menu_cache, filter_menu_cores} = query;
+        const { price_from, price_to, filter_menu_frequency, filter_menu_cache, filter_menu_cores } = query;
 
 
         let filteredCPU = cpus;
@@ -62,6 +87,15 @@ export class CPUController {
         }
 
         cpus = filteredCPU;
-        return res.render('index.hbs', { layout: false, cpu_filter: true, main: false, footer: true, header: true, cpus, cpu_frequency, cpu_cores, cpu_cache });
+
+
+        if (refreshToken) {
+            if (await this.tokenService.isAdmin(refreshToken)) {
+                return res.render('index.hbs', { layout: false, cpu_filter: true, main: false, footer: true, isAdmin: true, header: true, cpus, cpu_frequency, cpu_cores, cpu_cache });
+
+            }
+        }
+        return res.render('index.hbs', { layout: false, cpu_filter: true, main: false, footer: true, isUser: true, header: true, cpus, cpu_frequency, cpu_cores, cpu_cache });
+
     }
 }

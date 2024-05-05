@@ -81,6 +81,10 @@
     border-radius: 10px;
 }
 
+.order_block:not(:first-child) {
+    margin-top: 40px;
+}
+
 .order_btns {
     display: flex;
     justify-content: space-between;
@@ -89,3 +93,14 @@
 .order_block>div {
     padding: 10px;
 }
+
+
+.order_item:not(:first-child){
+    margin-left: 40px;
+}
+
+.order_item {
+    margin: 0 auto;
+    width: fit-content
+}
+

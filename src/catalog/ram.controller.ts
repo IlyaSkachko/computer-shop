@@ -1,25 +1,48 @@
-import { Controller, Get, Res, Query } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Res, Query, Req, ParseIntPipe } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { DBRam } from '../database/Products/DBRam'
+import { TokenService } from 'src/authorization/token/token.service';
+import { Page } from './page.enum';
 
 @Controller()
 export class RAMController {
 
     private db: DBRam;
 
-    constructor() {
+    constructor(private readonly tokenService: TokenService) {
         this.db = new DBRam();
     }
 
     @Get("/rams")
-    async getPage(@Res() res: Response) {
+    async getPage(@Query('page', ParseIntPipe) page: number, @Res() res: Response, @Req() req: Request) {
         try {
-            const rams = await this.db.getRAMs();
+
+            const pageSize = Page.SIZE;
+
+            if (isNaN(page) || page < 1) {
+                page = 1;
+            }
+
+            let skip = pageSize * (page - 1);
+
+            const rams = await this.db.getPageRAMs(skip, pageSize);
             const ram_frequency = await this.db.getFrequency();
             const ram_memory = await this.db.getMemory();
             const ram_type = await this.db.getType();
             const ram_port = await this.db.getTypePort();
-            return res.render('index.hbs', { layout: false, ram_filter: true, main: false, footer: true, header: true, rams, ram_frequency, ram_memory, ram_type, 
+
+
+            const refreshToken = req.cookies["refreshToken"];
+
+            if (refreshToken) {
+                if (await this.tokenService.isAdmin(refreshToken)) {
+                    return res.render('index.hbs', {
+                        layout: false, ram_filter: true, main: false, isAdmin: true, footer: true, header: true, rams, ram_frequency, ram_memory, ram_type,
+                        ram_port
+                    });
+                }
+            }
+            return res.render('index.hbs', { layout: false, ram_filter: true, isUser: true, main: false, footer: true, header: true, rams, ram_frequency, ram_memory, ram_type, 
                 ram_port});
         } catch(err) {
             res.sendStatus(500);
@@ -28,7 +51,7 @@ export class RAMController {
 
 
     @Get("/rams/filter")
-    async getRamFilter(@Res() res: Response, @Query() query: any) {
+    async getRamFilter(@Res() res: Response, @Query() query: any, @Req() req: Request) {
         let rams = await this.db.getRAMs();
         const ram_frequency = await this.db.getFrequency();
         const ram_memory = await this.db.getMemory();
@@ -72,6 +95,14 @@ export class RAMController {
 
         rams = filteredRAM;
 
-        return res.render('index.hbs', { layout: false, ram_filter: true, main: false, footer: true, header: true, rams, ram_frequency, ram_type, ram_port, ram_memory });
+        const refreshToken = req.cookies["refreshToken"];
+
+        if (refreshToken) {
+            if (await this.tokenService.isAdmin(refreshToken)) {
+                return res.render('index.hbs', { layout: false, ram_filter: true, main: false, isAdmin: true, isUser: false, footer: true, header: true, rams, ram_frequency, ram_type, ram_port, ram_memory });
+            }
+        }
+
+        return res.render('index.hbs', { layout: false, ram_filter: true, main: false, isUser: true, isAdmin: false, footer: true, header: true, rams, ram_frequency, ram_type, ram_port, ram_memory });
     }
 }

@@ -7,6 +7,7 @@ import { AdminModule } from './admin/admin.module';
 import { TokenModule } from './authorization/token/token.module';
 import { UserModule } from './user/user.module';
 
+
 @Module({
   imports: [CatalogModule, AuthModule, AdminModule, TokenModule, UserModule],
   controllers: [AppController],

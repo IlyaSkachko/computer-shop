@@ -1,2 +1,95 @@
+<div class="profile">
+    <div class="profile_info">
+        {{#if user}}
+        <div class="FIO">
+            <div class="name">{{user.Name}}</div>
+            <div class="name">{{user.Surname}}</div>
+        </div>
+        <div class="otherInfo">
+            <div class="Login"><b>Логин:</b> {{user.Login}}</div>
+            <div class="Phone"><b>Номер телефона:</b> {{user.Phone}}<span><img class="update_phone" src="/site-images/pencil.png"
+                        data-type="login" alt=""></span></div>
+            <div class="Email"><b>Email:</b> {{user.Email}}<span><img class="update_email" src="/site-images/pencil.png" data-type="email"
+                        alt=""></span></div>
+        </div>
+        {{/if}}
+    </div>
+    <div class="notifications">
+        
+    </div>
+</div>
+<a class="logoutBtn" href="/logout">Выйти</a>
 
-<a href="/logout">Выйти</a>
+
+<script>
+    const updatePhone = document.querySelector(".update_phone");
+    const updateEmail = document.querySelector(".update_email");
+
+    updateEmail.addEventListener("click", () => {
+            let newEmail = prompt("Новый email в формате (xxx@xxx.xxx)");
+
+            const emailRegex = /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,}$/;
+
+
+        if (emailRegex.test(newEmail)) {
+            let xhr = new XMLHttpRequest();
+
+            const data = {
+                id: {{user.ID}},
+                email: newEmail
+            }
+            xhr.open("PUT", "/user/updateEmail");
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        alert("Профиль изменен");
+                        location.reload();
+                    } else {
+                        alert("Ошибка изменения профиля")
+                    }
+                }
+            };
+
+            xhr.send(JSON.stringify(data));
+        } else {
+            alert("Неверный формат email")
+        }
+
+    })
+
+
+    updatePhone.addEventListener("click", () => {
+        let newPhone = prompt("Новый номер телефона в формате (+375XXXXXXXXX)");
+
+        const phoneRegex = /^\+\d{12}$/;
+
+        if(phoneRegex.test(newPhone)) {
+            let xhr = new XMLHttpRequest();
+
+            const data = {
+                id: {{user.ID}},
+                phone: newPhone
+            }
+
+            xhr.open("PUT", "/user/updatePhone");
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        alert("Профиль изменен");
+                        location.reload();
+                    } else {
+                        alert("Ошибка изменения профиля")
+                    }
+                }
+            };
+
+            xhr.send(JSON.stringify(data)); 
+        } else {
+            alert("Неверный формат номера телефона")
+        }
+    })
+</script>

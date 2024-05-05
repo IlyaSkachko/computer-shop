@@ -53,12 +53,12 @@
 
     <button type="submit" id="submitButton">Поиск</button>
 </form>
-<a class="reset_filter_link" href="/computers">Сбросить</a>
+<a class="reset_filter_link" href="/computers?page=1">Сбросить</a>
 {{/if}}
 
 
 {{#if laptop_filter}}
-<form class="filters" action="/cpus/filter" method="GET" id="filterForm">
+<form class="filters" action="/laptops/filter" method="GET" id="filterForm">
     <div class="filter_item">
         <div class="filter_title">Стоимость</div>
         <div><input type="text" name="price_from" id="price_from" placeholder="От" value="0"></div>
@@ -112,7 +112,7 @@
 
     <button type="submit" id="submitButton">Поиск</button>
 </form>
-<a class="reset_filter_link" href="/laptops">Сбросить</a>
+<a class="reset_filter_link" href="/laptops?page=1">Сбросить</a>
 {{/if}}
 
 
@@ -155,7 +155,7 @@
 
     <button type="submit" id="submitButton">Поиск</button>
 </form>
-<a class="reset_filter_link" href="/cpus">Сбросить</a>
+<a class="reset_filter_link" href="/cpus?page=1">Сбросить</a>
 {{/if}}
 
 
@@ -188,7 +188,7 @@
 
     <button type="submit" id="submitButton">Поиск</button>
 </form>
-<a class="reset_filter_link" href="/gpus">Сбросить</a>
+<a class="reset_filter_link" href="/gpus?page=1">Сбросить</a>
 {{/if}}
 
 
@@ -239,7 +239,7 @@
 
     <button type="submit" id="submitButton">Поиск</button>
 </form>
-<a class="reset_filter_link" href="/rams">Сбросить</a>
+<a class="reset_filter_link" href="/rams?page=1">Сбросить</a>
 {{/if}}
 
 
@@ -280,5 +280,5 @@
 
     <button type="submit" id="submitButton">Поиск</button>
 </form>
-<a class="reset_filter_link" href="/storageDevices">Сбросить</a>
+<a class="reset_filter_link" href="/storageDevices?page=1">Сбросить</a>
 {{/if}}

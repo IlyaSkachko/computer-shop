@@ -6,9 +6,10 @@ import { GPUController } from "./gpu.controller";
 import { CPUController } from "./cpu.controller";
 import { RAMController } from "./ram.controller";
 import { StorageDeviceController } from "./storageDevice.controller";
+import { TokenModule } from "src/authorization/token/token.module";
 
 @Module({
-    imports: [],
+    imports: [TokenModule],
     controllers: [CatalogController, ComputerController, LaptopController, GPUController, CPUController, RAMController, StorageDeviceController],
     providers: []
 })

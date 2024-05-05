@@ -14,5 +14,8 @@ import { JwtMiddleware } from "./auth.middleware";
     providers: []
 })
 
-export class AuthModule {
+export class AuthModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(JwtMiddleware).forRoutes(AuthController);
+    }
 }

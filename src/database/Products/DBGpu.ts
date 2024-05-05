@@ -1,4 +1,5 @@
 
+import { BadRequestException } from "@nestjs/common";
 import { DBInit } from "../DBInit";
 
 export class DBGpu extends DBInit {
@@ -8,8 +9,6 @@ export class DBGpu extends DBInit {
             if (name.length > 100) {
                 throw new Error("Too big data");
             }
-
-
             await this.prisma.gpus.create({
                 data: {
                     Name: name,
@@ -23,6 +22,37 @@ export class DBGpu extends DBInit {
             console.log(e);
             throw new Error(`[ERROR] GPU create: ${e}`);
         }
+    }
+
+    async getGPU(id) {
+        const gpu = await this.prisma.gpus.findFirstOrThrow({
+            where: {
+                ID: id
+            }
+        });
+        return gpu;
+    }
+
+    async getPageGPUs(skip: number, take: number) {
+
+        try {
+            const gpus = await this.prisma.gpus.findMany({
+                skip,
+                take,
+            });
+            return gpus;
+        } catch (e) {
+            throw new BadRequestException();
+        }
+    }
+
+    async deleteGPU(id) {
+        const gpu = await this.prisma.gpus.delete({
+            where: {
+                ID: id
+            }
+        })
+        return gpu;
     }
 
     async getGPUs() {

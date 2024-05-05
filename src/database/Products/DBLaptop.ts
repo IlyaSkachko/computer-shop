@@ -1,3 +1,4 @@
+import { BadRequestException } from "@nestjs/common";
 import { DBInit } from "../DBInit";
 
 export class DBLaptop extends DBInit {
@@ -26,10 +27,41 @@ export class DBLaptop extends DBInit {
             throw new Error(`[ERROR] Laptop create: ${e}`);
         }
     }
+    
+    async deleteLaptop(id) {
+        const laptop = await this.prisma.laptops.delete({
+            where: {
+                ID: id
+            }
+        })
+        return laptop;
+    }
+
+    async getLaptop(id) {
+        const laptops = await this.prisma.laptops.findFirstOrThrow({
+            where: {
+                ID: id
+            }
+        });
+        return laptops;
+    }
 
     async getLaptops() {
         const laptops = await this.prisma.laptops.findMany();
         return laptops;
+    }
+
+    async getPageLaptops(skip: number, take: number) {
+
+        try {
+            const laptops = await this.prisma.laptops.findMany({
+                skip,
+                take,
+            });
+            return laptops;
+        } catch (e) {
+            throw new BadRequestException();
+        }
     }
 
     async getLaptopCpus() {
