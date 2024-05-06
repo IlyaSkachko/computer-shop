@@ -36,10 +36,21 @@ export class DBOrder extends DBInit {
 
             return orders;
         } catch (error) {
-            console.error(error);
+            throw new BadRequestException();
         }
     }
 
+    async deleteOrder(userID) {
+        try {
+            await this.prisma.orders.deleteMany({
+                where: {
+                    UserId: parseInt(userID)
+                }
+            })
+        } catch (error) {
+            throw new Error();
+        }
+    }
 
     async changeOrder(status, userId) {
         try {

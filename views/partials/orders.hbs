@@ -11,7 +11,7 @@
             <div class="order_item">
                 {{#if this.computers}}
                 {{#each this.computers}}
-                <div class="img_product" ><img src="/images/{{this.Image}}" alt=""></div>
+                <div class="img_product"><img src="/images/{{this.Image}}" alt=""></div>
                 <div class="info_product">
                     <div>
                         <div class="name">{{this.Name}}</div>
@@ -129,29 +129,27 @@
         <div class="order_btns">
             <button id="acceptBtn{{@index}}" class="productImageBtn" data-user="{{this.UserId}}">Принять</button>
             <button id="cancelBtn{{@index}}" class="productImageBtn" data-user="{{this.UserId}}">Отклонить</button>
+            <button id="deleteBtn{{@index}}" class="productImageBtn" data-order="{{this.Id}}"
+                data-user="{{this.UserId}}">Удалить</button>
         </div>
     </div>
     {{/each}}
+
     <div class="pageBtns">
         <a class="prev">Предыдущая страница</a>
+        {{#if page}}
         <a class="next">Следующая страница</a>
+        {{/if}}
     </div>
+
 
 </div>
 
 
-
 <script>
+
     const param = parseInt(new URLSearchParams(window.location.search).get('page'));
-
-    const next = document.querySelector(".next");
     const prev = document.querySelector(".prev");
-
-    next.addEventListener("click", () => {
-        let xhr = new XMLHttpRequest();
-        const nextPage = param + 1;
-        window.location.href = `/adminPanel/orders?page=${nextPage}`;
-    })
 
     prev.addEventListener("click", () => {
         let prevPage = param - 1;
@@ -161,6 +159,21 @@
         window.location.href = `/adminPanel/orders?page=${prevPage}`;
     })
 </script>
+
+{{#if page }}
+<script>
+
+    const next = document.querySelector(".next");
+
+
+    next.addEventListener("click", () => {
+        let xhr = new XMLHttpRequest();
+        const nextPage = param + 1;
+        window.location.href = `/adminPanel/orders?page=${nextPage}`;
+    })
+</script>
+{{/if}}
+
 
 <script>
     const statuses = document.querySelectorAll("#status");
@@ -177,9 +190,45 @@
 
     const acceptBtns = document.querySelectorAll("[id^='acceptBtn']");
     const cancelBtns = document.querySelectorAll("[id^='cancelBtn']");
+    const deleteBtns = document.querySelectorAll("[id^='deleteBtn']");
+
+
+    for (let i = 0; i < deleteBtns.length; i++) {
+        deleteBtns[i].addEventListener("click", () => {
+
+            const user = deleteBtns[i].getAttribute("data-user");
+            const orderId = deleteBtns[i].getAttribute("data-order");
+            let xhr = new XMLHttpRequest();
+
+            const data = {
+                userId: user,
+                orderId
+            }
+
+            xhr.open("DELETE", "/adminPanel/deleteOrder");
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        alert("Заказ удален");
+                        location.reload();
+                    } else {
+                        alert("Ошибка удаления заказа!")
+                    }
+                }
+            };
+
+            xhr.send(JSON.stringify(data));
+        });
+    }
+
+
 
     for (let i = 0; i < acceptBtns.length; i++) {
         acceptBtns[i].addEventListener("click", () => {
+
+
+
             const user = acceptBtns[i].getAttribute("data-user");
             let xhr = new XMLHttpRequest();
 

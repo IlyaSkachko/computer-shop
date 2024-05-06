@@ -11,7 +11,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 export class TokenService {
 
     private readonly jwtSecret = "MyComputerProject";
-    private readonly accessTokenExpire = 600;
+    private readonly accessTokenExpire = 1200;
     private readonly refreshTokenExpire = 86400;
 
     constructor(private readonly jwtService: JwtService) {

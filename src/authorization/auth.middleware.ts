@@ -33,7 +33,6 @@ export class JwtMiddleware implements NestMiddleware {
                     if (!refreshTokenPayload) {
                         res.clearCookie("refreshToken");
                         const { login, password } = req.body;
-                        console.log(login);
                         const user = await this.db_auth.getUser(login);
                         const newRefreshToken = await this.tokenService.generateRefreshJwtToken(user);
 
@@ -52,7 +51,6 @@ export class JwtMiddleware implements NestMiddleware {
 
                     const user = refreshTokenPayload.user;
                     const newAccessToken = await this.tokenService.generateAccessJwtToken(user);
-                    console.log(newAccessToken)
                     res.set('Authorization', `Bearer ${newAccessToken}`);
                     res.cookie("accessToken", newAccessToken, { httpOnly: true, sameSite: "none", });
                     res.cookie("refreshToken", refreshToken, { httpOnly: true, sameSite: "none", });

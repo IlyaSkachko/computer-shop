@@ -1,7 +1,7 @@
 <div class="profile">
     <div class="profile_info">
         {{#if user}}
-        <div class="FIO">
+        <div class="FIO" data-user="{{user.ID}}">
             <div class="name">{{user.Name}}</div>
             <div class="name">{{user.Surname}}</div>
         </div>
@@ -14,12 +14,24 @@
         </div>
         {{/if}}
     </div>
-    <div class="notifications">
-        
-    </div>
 </div>
 <a class="logoutBtn" href="/logout">Выйти</a>
 
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+    let socket = io();
+
+    const fio = document.querySelector(".FIO");
+    const user = fio.getAttribute("data-user");
+
+        socket.emit("server", user)
+
+        socket.on("client", (message) => {
+            alert(message);
+        });
+
+</script>
 
 <script>
     const updatePhone = document.querySelector(".update_phone");

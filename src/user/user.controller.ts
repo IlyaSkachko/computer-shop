@@ -298,6 +298,20 @@ export class UserController {
 
             const userID = (await this.dbAuth.getUser(user.login)).ID;
 
+            const orders = await this.dbOrder.getOrders();
+
+            for (const element of orders) {
+                if (element.UserId === userID) {
+                    try {
+                        throw new BadRequestException("У вас уже есть заказ! Ожидайте обработки администратором");
+                    } catch(e) {
+                        res.set("Content-Type", "text/html");
+                        res.send(`<h1>${res.statusCode} ${res.statusMessage}</h1><h3>${e.message}</h3>`);
+                        return;
+                    }
+                }
+            }
+
             const { address, products } = req.body;
 
             const userOrder = await this.dbOrder.checkOrder(userID);

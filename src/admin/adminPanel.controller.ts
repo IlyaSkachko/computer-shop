@@ -20,6 +20,7 @@ import { DBShoppingCart } from 'src/database/Orders/DBShoppingCart';
 import { CPU, Computer, GPU, Laptop, RAM, StorageDevice } from 'src/catalog/catalog.interface';
 import { Page } from 'src/catalog/page.enum';
 
+
 @UseGuards(RolesGuard)
 @Roles(ROLE.Admin)
 @Controller()
@@ -67,6 +68,21 @@ export class AdminPanelController {
             const { userId } = req.body;
 
             await this.dbOrder.changeOrder("Отклонено", userId);
+            res.sendStatus(200);
+        } catch (err) {
+            console.log(err);
+            res.set("Content-Type", "text/html");
+            res.send(`<h1>${res.statusCode} ${res.statusMessage}</h1>`);
+        }
+    }
+
+    @Delete("/adminPanel/deleteOrder")
+    async deleteOrder(@Res() res: Response, @Req() req: Request) {
+
+        try {
+            const { userId, orderId } = req.body;
+
+            await this.dbOrder.deleteOrder(userId);
 
             res.sendStatus(200);
         } catch (err) {
@@ -87,7 +103,7 @@ export class AdminPanelController {
             }
 
             let skip = pageSize * (page - 1);
-            
+
             const orders = await this.dbOrder.getOrders();
 
             let result = [];
@@ -103,7 +119,7 @@ export class AdminPanelController {
                 price: 0,
                 Status: "",
                 Address: "",
-                UserInfo: {Phone: "", Name: ""}
+                UserInfo: { Phone: "", Name: "" }
             };
 
 
@@ -112,7 +128,7 @@ export class AdminPanelController {
                 if (i == 0) {
                     order.UserId = userID;
                     const user = await this.dbAuth.getUserById(userID);
-                    order.UserInfo = {Phone: user.Phone, Name: `${user.Name} ${user.Surname}`}
+                    order.UserInfo = { Phone: user.Phone, Name: `${user.Name} ${user.Surname}` }
                     order.Address = orders[i].Address;
                     order.Status = orders[i].Status;
                 } else {
@@ -179,10 +195,15 @@ export class AdminPanelController {
 
             result = result.slice(skip, skip + pageSize);
 
-            return res.render('index.hbs', {
-                layout: false, main: false, footer: true, header: true, order: true, adminPanel: true, isAdmin: true, result
-            });
-
+            if (result.length > 1) {
+                return res.render('index.hbs', {
+                    layout: false, main: false, footer: true, header: true, order: true, adminPanel: true, isAdmin: true, page: true, result
+                });
+            } else {
+                return res.render('index.hbs', {
+                    layout: false, main: false, footer: true, header: true, order: true, adminPanel: true, isAdmin: true, result
+                });
+            }
         } catch (err) {
             console.log(err);
             res.set("Content-Type", "text/html");

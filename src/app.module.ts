@@ -6,11 +6,12 @@ import { AuthModule } from './authorization/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { TokenModule } from './authorization/token/token.module';
 import { UserModule } from './user/user.module';
+import { SocketService } from './websocket/socket.service';
 
 
 @Module({
   imports: [CatalogModule, AuthModule, AdminModule, TokenModule, UserModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SocketService],
 })
 export class AppModule {}
