@@ -16,6 +16,8 @@ import * as session from 'express-session';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, new ExpressAdapter());
 
+  const PORT = process.env.PORT;
+
   app.use(session({
     secret: 'MyComputerShop',
     resave: false,
@@ -41,6 +43,6 @@ async function bootstrap() {
   app.set('view engine', 'hbs');
 
 
-  await app.listen(3000);
+  await app.listen(PORT);
 }
 bootstrap();
